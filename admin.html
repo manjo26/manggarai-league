@@ -1,102 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Manggarai League</title>
-    <style>
-        body {
-            font-family: Arial;
-            text-align: center;
-            background-color: #0b1d3a;
-            color: white;
-        }
-        table {
-            margin: auto;
-            border-collapse: collapse;
-            width: 80%;
-            background: white;
-            color: black;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 10px;
-        }
-        input {
-            width: 50px;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-        }
-    </style>
+<title>Admin Manggarai League</title>
+
+<style>
+body{
+font-family:Arial;
+background:#222;
+color:white;
+text-align:center;
+}
+
+h1{
+background:black;
+padding:15px;
+}
+
+input{
+padding:8px;
+margin:5px;
+width:60px;
+}
+
+select{
+padding:8px;
+margin:5px;
+}
+
+button{
+padding:10px 20px;
+background:green;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+background:darkgreen;
+}
+</style>
+
 </head>
+
 <body>
 
-<h1>ADMIN MANGGARAI LEAGUE</h1>
+<h1>ADMIN LIGA</h1>
 
-<div id="login">
-    <h2>Login Admin</h2>
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-</div>
+<h3>Input Skor</h3>
 
-<div id="adminPanel" style="display:none;">
-    <h2>Input Skor</h2>
+<select id="team1"></select>
+<input type="number" id="score1" placeholder="0">
 
-    <table id="klasemen">
-        <tr>
-            <th>Tim</th>
-            <th>Main</th>
-            <th>Menang</th>
-            <th>Seri</th>
-            <th>Kalah</th>
-            <th>Poin</th>
-        </tr>
-    </table>
+VS
 
-    <button onclick="simpan()">Simpan</button>
-</div>
+<select id="team2"></select>
+<input type="number" id="score2" placeholder="0">
+
+<br><br>
+
+<button onclick="saveScore()">Simpan</button>
 
 <script>
-let passwordAdmin = "12345"; // GANTI PASSWORD DISINI
 
-let teams = [
-    "PERSONA FC",
-    "BANGKA NACAP FC",
-    "PALOPO FC",
-    "ASE KAE FC",
-    "REAL MADRID",
-    "AKAMASI",
-    "MACAN SANGATTA",
-    "ARENA FC"
+let teams = JSON.parse(localStorage.getItem("teams")) || [
+{name:"GAPUTRO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"PERSONA FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"BANGKA NACAP FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"PALOPO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"ASE KAE FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"REAL MADRID", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"AKAMASI", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"MACAN SANGATTA", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"ARENA FC", main:0, menang:0, seri:0, kalah:0, poin:0}
 ];
 
-function login() {
-    let pass = document.getElementById("password").value;
-    if(pass === passwordAdmin) {
-        document.getElementById("login").style.display="none";
-        document.getElementById("adminPanel").style.display="block";
-        loadTable();
-    } else {
-        alert("Password salah!");
-    }
+let team1 = document.getElementById("team1");
+let team2 = document.getElementById("team2");
+
+teams.forEach((t,i)=>{
+team1.innerHTML+=`<option value="${i}">${t.name}</option>`;
+team2.innerHTML+=`<option value="${i}">${t.name}</option>`;
+});
+
+function saveScore(){
+
+let t1 = team1.value;
+let t2 = team2.value;
+
+let s1 = parseInt(document.getElementById("score1").value);
+let s2 = parseInt(document.getElementById("score2").value);
+
+if(t1==t2){
+alert("Tim tidak boleh sama!");
+return;
 }
 
-function loadTable() {
-    let table = document.getElementById("klasemen");
+teams[t1].main++;
+teams[t2].main++;
 
-    teams.forEach((team,i)=>{
-        let row = table.insertRow();
-        row.insertCell(0).innerHTML = team;
-        for(let j=1;j<=5;j++){
-            row.insertCell(j).innerHTML = `<input type="number" value="0">`;
-        }
-    });
+if(s1>s2){
+teams[t1].menang++;
+teams[t2].kalah++;
+teams[t1].poin+=3;
+}
+else if(s2>s1){
+teams[t2].menang++;
+teams[t1].kalah++;
+teams[t2].poin+=3;
+}
+else{
+teams[t1].seri++;
+teams[t2].seri++;
+teams[t1].poin+=1;
+teams[t2].poin+=1;
 }
 
-function simpan() {
-    alert("Data tersimpan (manual copy ke index.html ya bro)");
+localStorage.setItem("teams",JSON.stringify(teams));
+
+alert("Skor disimpan!");
 }
+
 </script>
 
 </body>
