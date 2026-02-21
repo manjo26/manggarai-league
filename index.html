@@ -4,13 +4,12 @@
 <title>Manggarai League eFootball</title>
 <style>
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     margin: 0;
-    background: linear-gradient(to bottom, #0b1d3a, #000);
+    background: linear-gradient(#0b1d3a, black);
     color: white;
 }
 
-/* Header */
 .header {
     background: black;
     padding: 20px;
@@ -18,68 +17,47 @@ body {
     border-bottom: 3px solid yellow;
 }
 
-.header h1 {
-    margin: 0;
+h1 {
     color: yellow;
-    font-size: 36px;
 }
 
-.header p {
-    margin: 5px;
-    font-size: 18px;
-}
-
-/* Box */
 .container {
     padding: 20px;
 }
 
-/* Tabel */
 table {
     width: 90%;
     margin: auto;
     border-collapse: collapse;
     background: white;
     color: black;
-    border-radius: 10px;
-    overflow: hidden;
+    margin-bottom: 30px;
 }
 
 th {
     background: black;
     color: white;
-    padding: 12px;
+    padding: 10px;
 }
 
 td {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    text-align: center;
 }
 
-/* Hover */
-tr:hover {
-    background: #f2f2f2;
+input {
+    width: 40px;
+    text-align: center;
 }
 
-/* Posisi Juara */
-.top1 {
-    background: gold;
-    font-weight: bold;
-}
+.top1 { background: gold; }
+.top2 { background: silver; }
+.top3 { background: #cd7f32; }
 
-.top2 {
-    background: silver;
-}
-
-.top3 {
-    background: #cd7f32;
-}
-
-/* Footer */
-.footer {
-    margin-top: 30px;
-    padding: 15px;
-    background: black;
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px;
 }
 </style>
 </head>
@@ -88,14 +66,14 @@ tr:hover {
 
 <div class="header">
 <h1>MANGGARAI LEAGUE</h1>
-<p>eFootball Mobile League</p>
+<p>eFootball Mobile</p>
 </div>
 
 <div class="container">
 
 <h2 style="text-align:center;">KLASEMEN</h2>
 
-<table>
+<table id="klasemen">
 <tr>
 <th>Pos</th>
 <th>Tim</th>
@@ -105,55 +83,173 @@ tr:hover {
 <th>Kalah</th>
 <th>Poin</th>
 </tr>
+</table>
 
-<tr class="top1">
+<h2 style="text-align:center;">INPUT SKOR</h2>
+
+<table>
+<tr>
+<th>Match</th>
+<th>Home</th>
+<th></th>
+<th>Away</th>
+<th>Update</th>
+</tr>
+
+<tr>
 <td>1</td>
 <td>GAPUTRO FC</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>
+<input id="m1h" type="number"> -
+<input id="m1a" type="number">
+</td>
+<td>Pesona FC</td>
+<td><button onclick="updateMatch(0,1,'m1h','m1a')">Save</button></td>
 </tr>
 
-<tr class="top2">
+<tr>
 <td>2</td>
 <td>Pesona FC</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>
+<input id="m2h" type="number"> -
+<input id="m2a" type="number">
+</td>
+<td>BANGKA NACAP FC</td>
+<td><button onclick="updateMatch(1,2,'m2h','m2a')">Save</button></td>
 </tr>
 
-<tr class="top3">
+<tr>
 <td>3</td>
 <td>BANGKA NACAP FC</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>
+<input id="m3h" type="number"> -
+<input id="m3a" type="number">
+</td>
+<td>GAPUTRO FC</td>
+<td><button onclick="updateMatch(2,0,'m3h','m3a')">Save</button></td>
 </tr>
 
 </table>
 
-<br>
-
-<h2 style="text-align:center;">INFO LIGA</h2>
-
 <div style="text-align:center;">
-<p>🎮 Game: eFootball Mobile</p>
-<p>🏆 Liga: Manggarai League</p>
-<p>👥 Tim: 3</p>
-<p>📅 Sistem: Round Robin</p>
+<button onclick="resetTable()">Reset Liga</button>
 </div>
 
 </div>
 
-<div class="footer">
-<p>© 2026 Manggarai League eFootball</p>
-</div>
+<script>
+
+let teams = [
+{name:"GAPUTRO FC", main:0, win:0, draw:0, lose:0, point:0},
+{name:"Pesona FC", main:0, win:0, draw:0, lose:0, point:0},
+{name:"BANGKA NACAP FC", main:0, win:0, draw:0, lose:0, point:0}
+];
+
+function resetStats(){
+teams.forEach(t=>{
+t.main=0;
+t.win=0;
+t.draw=0;
+t.lose=0;
+t.point=0;
+});
+}
+
+function updateMatch(home,away,hid,aid){
+
+let h = parseInt(document.getElementById(hid).value) || 0;
+let a = parseInt(document.getElementById(aid).value) || 0;
+
+resetStats();
+
+// Match 1
+calcMatch(0,1,"m1h","m1a");
+
+// Match 2
+calcMatch(1,2,"m2h","m2a");
+
+// Match 3
+calcMatch(2,0,"m3h","m3a");
+
+showTable();
+}
+
+function calcMatch(h,a,hid,aid){
+
+let hs = parseInt(document.getElementById(hid).value);
+let as = parseInt(document.getElementById(aid).value);
+
+if(isNaN(hs) || isNaN(as)) return;
+
+teams[h].main++;
+teams[a].main++;
+
+if(hs>as){
+teams[h].win++;
+teams[a].lose++;
+teams[h].point+=3;
+}
+else if(hs<as){
+teams[a].win++;
+teams[h].lose++;
+teams[a].point+=3;
+}
+else{
+teams[h].draw++;
+teams[a].draw++;
+teams[h].point+=1;
+teams[a].point+=1;
+}
+
+}
+
+function showTable(){
+
+teams.sort((a,b)=>b.point-a.point);
+
+let html = `
+<tr>
+<th>Pos</th>
+<th>Tim</th>
+<th>Main</th>
+<th>Menang</th>
+<th>Seri</th>
+<th>Kalah</th>
+<th>Poin</th>
+</tr>
+`;
+
+teams.forEach((t,i)=>{
+let cls="";
+if(i==0) cls="top1";
+if(i==1) cls="top2";
+if(i==2) cls="top3";
+
+html+=`
+<tr class="${cls}">
+<td>${i+1}</td>
+<td>${t.name}</td>
+<td>${t.main}</td>
+<td>${t.win}</td>
+<td>${t.draw}</td>
+<td>${t.lose}</td>
+<td>${t.point}</td>
+</tr>
+`;
+});
+
+document.getElementById("klasemen").innerHTML = html;
+}
+
+function resetTable(){
+document.querySelectorAll("input").forEach(i=>i.value="");
+resetStats();
+showTable();
+}
+
+showTable();
+
+</script>
 
 </body>
 </html>
