@@ -35,6 +35,7 @@ padding:25px;
 border-radius:15px;
 box-shadow:0px 5px 20px rgba(0,0,0,0.5);
 text-align:center;
+margin-bottom:20px;
 }
 
 input, select{
@@ -96,6 +97,19 @@ color:#ccc;
 
 <div id="panel" class="container">
 
+<!-- TAMBAH TIM -->
+<div class="card">
+<h2>Tambah Tim Baru</h2>
+
+<input type="text" id="teamName" placeholder="Nama Tim">
+<br><br>
+
+<button onclick="tambahTim()">Tambah Tim</button>
+
+</div>
+
+
+<!-- INPUT SKOR -->
 <div class="card">
 
 <h2>Input Hasil Pertandingan</h2>
@@ -112,10 +126,16 @@ color:#ccc;
 
 <button onclick="saveScore()">Simpan Hasil</button>
 
-<br><br>
+</div>
+
+
+<!-- RESET -->
+<div class="card">
+
+<h2>Reset Liga</h2>
 
 <button onclick="resetLiga()" style="background:red;">
-Reset Liga
+Reset Semua Data
 </button>
 
 </div>
@@ -137,6 +157,7 @@ let pass = document.getElementById("password").value;
 if(pass===PASSWORD){
 document.getElementById("login").style.display="none";
 document.getElementById("panel").style.display="block";
+loadTeams();
 }
 else{
 alert("Password salah!");
@@ -158,15 +179,52 @@ let teams = JSON.parse(localStorage.getItem("teams")) || [
 {name:"ARENA FC", main:0, menang:0, seri:0, kalah:0, poin:0}
 ];
 
+
+function loadTeams(){
+
 let team1 = document.getElementById("team1");
 let team2 = document.getElementById("team2");
+
+team1.innerHTML="";
+team2.innerHTML="";
 
 teams.forEach((t,i)=>{
 team1.innerHTML+=`<option value="${i}">${t.name}</option>`;
 team2.innerHTML+=`<option value="${i}">${t.name}</option>`;
 });
 
+}
 
+
+// TAMBAH TIM
+function tambahTim(){
+
+let nama = document.getElementById("teamName").value;
+
+if(nama==""){
+alert("Isi nama tim!");
+return;
+}
+
+teams.push({
+name:nama,
+main:0,
+menang:0,
+seri:0,
+kalah:0,
+poin:0
+});
+
+localStorage.setItem("teams",JSON.stringify(teams));
+
+loadTeams();
+
+alert("Tim berhasil ditambahkan!");
+
+}
+
+
+// SIMPAN SKOR
 function saveScore(){
 
 let t1 = team1.value;
@@ -202,12 +260,12 @@ teams[t2].poin+=1;
 
 localStorage.setItem("teams",JSON.stringify(teams));
 
-alert("Hasil pertandingan disimpan!");
+alert("Hasil disimpan!");
 
 }
 
 
-
+// RESET
 function resetLiga(){
 
 if(confirm("Reset semua data?")){
@@ -227,6 +285,12 @@ alert("Liga direset!");
 }
 
 }
+
+</script>
+
+</body>
+</html>
+
 
 </script>
 
