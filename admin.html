@@ -1,93 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Liga</title>
-<style>
-body{
-font-family:Arial;
-text-align:center;
-background:black;
-color:white;
-}
-
-input{
-width:60px;
-margin:5px;
-}
-
-button{
-padding:10px;
-margin:5px;
-}
-</style>
+    <title>Admin Manggarai League</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background-color: #0b1d3a;
+            color: white;
+        }
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: white;
+            color: black;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        input {
+            width: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+        }
+    </style>
 </head>
-
 <body>
 
 <h1>ADMIN MANGGARAI LEAGUE</h1>
 
-<input id="pass" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
+<div id="login">
+    <h2>Login Admin</h2>
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+</div>
 
-<div id="admin" style="display:none;">
+<div id="adminPanel" style="display:none;">
+    <h2>Input Skor</h2>
 
-<h2>Input Poin</h2>
+    <table id="klasemen">
+        <tr>
+            <th>Tim</th>
+            <th>Main</th>
+            <th>Menang</th>
+            <th>Seri</th>
+            <th>Kalah</th>
+            <th>Poin</th>
+        </tr>
+    </table>
 
-<div id="inputs"></div>
-
-<button onclick="save()">Simpan</button>
-
+    <button onclick="simpan()">Simpan</button>
 </div>
 
 <script>
-
-let password = "123";
-
-function login(){
-let p = document.getElementById("pass").value;
-if(p==password){
-document.getElementById("admin").style.display="block";
-}
-else{
-alert("Password salah!");
-}
-}
+let passwordAdmin = "12345"; // GANTI PASSWORD DISINI
 
 let teams = [
-{name:"GAPUTRO FC",point:0},
-{name:"Pesona FC",point:0},
-{name:"BANGKA NACAP FC",point:0},
-{name:"Palopo FC",point:0},
-{name:"ASE KAE FC",point:0},
-{name:"Real Madrid",point:0},
-{name:"AKAMASI",point:0},
-{name:"MACAN SANGATTA",point:0},
-{name:"ARENA FC",point:0}
+    "PERSONA FC",
+    "BANGKA NACAP FC",
+    "PALOPO FC",
+    "ASE KAE FC",
+    "REAL MADRID",
+    "AKAMASI",
+    "MACAN SANGATTA",
+    "ARENA FC"
 ];
 
-let saved = JSON.parse(localStorage.getItem("teams"));
-if(saved) teams = saved;
-
-let html="";
-teams.forEach((t,i)=>{
-html+=`
-<p>${t.name} 
-<input id="t${i}" type="number" value="${t.point}">
-</p>
-`;
-});
-
-document.getElementById("inputs").innerHTML=html;
-
-function save(){
-teams.forEach((t,i)=>{
-t.point = parseInt(document.getElementById("t"+i).value)||0;
-});
-
-localStorage.setItem("teams",JSON.stringify(teams));
-alert("Tersimpan!");
+function login() {
+    let pass = document.getElementById("password").value;
+    if(pass === passwordAdmin) {
+        document.getElementById("login").style.display="none";
+        document.getElementById("adminPanel").style.display="block";
+        loadTable();
+    } else {
+        alert("Password salah!");
+    }
 }
 
+function loadTable() {
+    let table = document.getElementById("klasemen");
+
+    teams.forEach((team,i)=>{
+        let row = table.insertRow();
+        row.insertCell(0).innerHTML = team;
+        for(let j=1;j<=5;j++){
+            row.insertCell(j).innerHTML = `<input type="number" value="0">`;
+        }
+    });
+}
+
+function simpan() {
+    alert("Data tersimpan (manual copy ke index.html ya bro)");
+}
 </script>
 
 </body>
