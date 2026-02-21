@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manggarai League eFootball</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #0b1d3a;
+            color: white;
+        }
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: white;
+            color: black;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        th {
+            background: black;
+            color: white;
+        }
+        h1 {
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+<h1>MANGGARAI LEAGUE eFOOTBALL</h1>
+
+<h2>Klasemen</h2>
+
+<table>
+<tr>
+<th>No</th>
+<th>Tim</th>
+<th>Main</th>
+<th>Menang</th>
+<th>Seri</th>
+<th>Kalah</th>
+<th>Poin</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>GAPUTRO FC</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Pesona FC</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>BANGKA NACAP FC</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+
+</table>
+
+</body>
+</html>
