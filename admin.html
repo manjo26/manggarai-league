@@ -1,47 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<title>Admin Liga</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Manggarai League</title>
 
 <style>
+
 body{
-font-family:Arial;
-background:#222;
+margin:0;
+font-family: Arial;
+background: linear-gradient(to right,#141e30,#243b55);
 color:white;
+}
+
+header{
+background:black;
+padding:20px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
+
+.container{
+width:90%;
+margin:auto;
+margin-top:30px;
+}
+
+.card{
+background:white;
+color:black;
+padding:25px;
+border-radius:15px;
+box-shadow:0px 5px 20px rgba(0,0,0,0.5);
 text-align:center;
 }
 
-.login{
-margin-top:100px;
-}
-
-input{
+input, select{
 padding:10px;
-margin:5px;
+margin:10px;
+font-size:16px;
+width:200px;
 }
 
 button{
-padding:10px 20px;
-background:green;
+padding:12px 25px;
+background:#0b1d3a;
 color:white;
 border:none;
+font-size:16px;
 cursor:pointer;
+border-radius:8px;
 }
 
 button:hover{
-background:darkgreen;
+background:#1e3c72;
 }
 
 #panel{
 display:none;
 }
+
+.login{
+text-align:center;
+margin-top:150px;
+}
+
+.footer{
+text-align:center;
+margin-top:20px;
+color:#ccc;
+}
+
 </style>
 
 </head>
 
 <body>
 
+<header>
+⚽ ADMIN MANGGARAI LEAGUE
+</header>
+
 <div id="login" class="login">
+
 <h2>Login Admin</h2>
 
 <input type="password" id="password" placeholder="Password">
@@ -51,18 +94,35 @@ display:none;
 </div>
 
 
-<div id="panel">
+<div id="panel" class="container">
 
-<h1>ADMIN MANGGARAI LEAGUE</h1>
+<div class="card">
 
-<select id="team">
-</select>
+<h2>Input Hasil Pertandingan</h2>
 
-<input type="number" id="poin" placeholder="Poin">
+<select id="team1"></select>
+<input type="number" id="score1" placeholder="0">
+
+<h3>VS</h3>
+
+<select id="team2"></select>
+<input type="number" id="score2" placeholder="0">
 
 <br><br>
 
-<button onclick="updatePoin()">Update Poin</button>
+<button onclick="saveScore()">Simpan Hasil</button>
+
+<br><br>
+
+<button onclick="resetLiga()" style="background:red;">
+Reset Liga
+</button>
+
+</div>
+
+<div class="footer">
+Manggarai League Admin Panel
+</div>
 
 </div>
 
@@ -72,9 +132,9 @@ let PASSWORD = "12345";
 
 function login(){
 
-let input = document.getElementById("password").value;
+let pass = document.getElementById("password").value;
 
-if(input===PASSWORD){
+if(pass===PASSWORD){
 document.getElementById("login").style.display="none";
 document.getElementById("panel").style.display="block";
 }
@@ -84,34 +144,87 @@ alert("Password salah!");
 
 }
 
+
+// DATA TIM
 let teams = JSON.parse(localStorage.getItem("teams")) || [
-{name:"GAPUTRO FC", poin:0},
-{name:"PERSONA FC", poin:0},
-{name:"BANGKA NACAP FC", poin:0},
-{name:"PALOPO FC", poin:0},
-{name:"ASE KAE FC", poin:0},
-{name:"REAL MADRID", poin:0},
-{name:"AKAMASI", poin:0},
-{name:"MACAN SANGATTA", poin:0},
-{name:"ARENA FC", poin:0}
+{name:"GAPUTRO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"PERSONA FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"BANGKA NACAP FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"PALOPO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"ASE KAE FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"REAL MADRID", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"AKAMASI", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"MACAN SANGATTA", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"ARENA FC", main:0, menang:0, seri:0, kalah:0, poin:0}
 ];
 
-let select = document.getElementById("team");
+let team1 = document.getElementById("team1");
+let team2 = document.getElementById("team2");
 
 teams.forEach((t,i)=>{
-select.innerHTML+=`<option value="${i}">${t.name}</option>`;
+team1.innerHTML+=`<option value="${i}">${t.name}</option>`;
+team2.innerHTML+=`<option value="${i}">${t.name}</option>`;
 });
 
-function updatePoin(){
 
-let index = select.value;
-let poinBaru = parseInt(document.getElementById("poin").value);
+function saveScore(){
 
-teams[index].poin = poinBaru;
+let t1 = team1.value;
+let t2 = team2.value;
+
+let s1 = parseInt(document.getElementById("score1").value);
+let s2 = parseInt(document.getElementById("score2").value);
+
+if(t1==t2){
+alert("Tim tidak boleh sama!");
+return;
+}
+
+teams[t1].main++;
+teams[t2].main++;
+
+if(s1>s2){
+teams[t1].menang++;
+teams[t2].kalah++;
+teams[t1].poin+=3;
+}
+else if(s2>s1){
+teams[t2].menang++;
+teams[t1].kalah++;
+teams[t2].poin+=3;
+}
+else{
+teams[t1].seri++;
+teams[t2].seri++;
+teams[t1].poin+=1;
+teams[t2].poin+=1;
+}
 
 localStorage.setItem("teams",JSON.stringify(teams));
 
-alert("Poin berhasil diupdate!");
+alert("Hasil pertandingan disimpan!");
+
+}
+
+
+
+function resetLiga(){
+
+if(confirm("Reset semua data?")){
+
+teams.forEach(t=>{
+t.main=0;
+t.menang=0;
+t.seri=0;
+t.kalah=0;
+t.poin=0;
+});
+
+localStorage.setItem("teams",JSON.stringify(teams));
+
+alert("Liga direset!");
+
+}
 
 }
 
