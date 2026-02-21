@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Klasemen Liga</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f0f0f0;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 90%;
+            background: white;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: black;
+            color: white;
+        }
+        input {
+            width: 60px;
+            text-align: center;
+        }
+        .namaTim {
+            width: 120px;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Klasemen Liga eFootball</h2>
+
+<table id="tabel">
+    <tr>
+        <th>No</th>
+        <th>Tim</th>
+        <th>M</th>
+        <th>W</th>
+        <th>D</th>
+        <th>L</th>
+        <th>Poin</th>
+    </tr>
+</table>
+
+<button onclick="tambahTim()">Tambah Tim</button>
+<button onclick="hitung()">Hitung & Urutkan</button>
+<button onclick="simpan()">Simpan</button>
+<button onclick="loadData()">Load</button>
+
+<script>
+
+let dataTim = [];
+
+function tambahTim() {
+    dataTim.push({
+        nama: "Tim Baru",
+        main: 0,
+        menang: 0,
+        seri: 0,
+        kalah: 0,
+        poin: 0
+    });
+    tampilkan();
+}
+
+function hitung() {
+    dataTim.forEach(tim => {
+        tim.poin = (tim.menang * 3) + (tim.seri * 1);
+        tim.main = tim.menang + tim.seri + tim.kalah;
+    });
+
+    dataTim.sort((a,b) => b.poin - a.poin);
+    tampilkan();
+}
+
+function tampilkan() {
+    let tabel = document.getElementById("tabel");
+    tabel.innerHTML = `
+    <tr>
+        <th>No</th>
+        <th>Tim</th>
+        <th>M</th>
+        <th>W</th>
+        <th>D</th>
+        <th>L</th>
+        <th>Poin</th>
+    </tr>
+    `;
+
+    dataTim.forEach((tim, index) => {
+        tabel.innerHTML += `
+        <tr>
+            <td>${index+1}</td>
+            <td><input class="namaTim" value="${tim.nama}" onchange="updateNama(${index}, this.value)"></td>
+            <td>${tim.main}</td>
+            <td><input type="number" value="${tim.menang}" onchange="update(${index}, 'menang', this.value)"></td>
+            <td><input type="number" value="${tim.seri}" onchange="update(${index}, 'seri', this.value)"></td>
+            <td><input type="number" value="${tim.kalah}" onchange="update(${index}, 'kalah', this.value)"></td>
+            <td>${tim.poin}</td>
+        </tr>
+        `;
+    });
+}
+
+function update(index, field, value) {
+    dataTim[index][field] = parseInt(value) || 0;
+}
+
+function updateNama(index, value) {
+    dataTim[index].nama = value;
+}
+
+function simpan() {
+    localStorage.setItem("ligaData", JSON.stringify(dataTim));
+    alert("Data tersimpan!");
+}
+
+function loadData() {
+    let data = localStorage.getItem("ligaData");
+    if(data) {
+        dataTim = JSON.parse(data);
+        tampilkan();
+    }
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
