@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Liga</title>
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:black;
+color:white;
+}
+
+input{
+width:60px;
+margin:5px;
+}
+
+button{
+padding:10px;
+margin:5px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>ADMIN MANGGARAI LEAGUE</h1>
+
+<input id="pass" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+
+<div id="admin" style="display:none;">
+
+<h2>Input Poin</h2>
+
+<div id="inputs"></div>
+
+<button onclick="save()">Simpan</button>
+
+</div>
+
+<script>
+
+let password = "123";
+
+function login(){
+let p = document.getElementById("pass").value;
+if(p==password){
+document.getElementById("admin").style.display="block";
+}
+else{
+alert("Password salah!");
+}
+}
+
+let teams = [
+{name:"GAPUTRO FC",point:0},
+{name:"Pesona FC",point:0},
+{name:"BANGKA NACAP FC",point:0},
+{name:"Palopo FC",point:0},
+{name:"ASE KAE FC",point:0},
+{name:"Real Madrid",point:0},
+{name:"AKAMASI",point:0},
+{name:"MACAN SANGATTA",point:0},
+{name:"ARENA FC",point:0}
+];
+
+let saved = JSON.parse(localStorage.getItem("teams"));
+if(saved) teams = saved;
+
+let html="";
+teams.forEach((t,i)=>{
+html+=`
+<p>${t.name} 
+<input id="t${i}" type="number" value="${t.point}">
+</p>
+`;
+});
+
+document.getElementById("inputs").innerHTML=html;
+
+function save(){
+teams.forEach((t,i)=>{
+t.point = parseInt(document.getElementById("t"+i).value)||0;
+});
+
+localStorage.setItem("teams",JSON.stringify(teams));
+alert("Tersimpan!");
+}
+
+</script>
+
+</body>
+</html>
