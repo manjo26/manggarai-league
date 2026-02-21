@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Manggarai League</title>
+<title>Admin Liga</title>
 
 <style>
 body{
@@ -11,19 +11,12 @@ color:white;
 text-align:center;
 }
 
-h1{
-background:black;
-padding:15px;
+.login{
+margin-top:100px;
 }
 
 input{
-padding:8px;
-margin:5px;
-width:60px;
-}
-
-select{
-padding:8px;
+padding:10px;
 margin:5px;
 }
 
@@ -38,86 +31,88 @@ cursor:pointer;
 button:hover{
 background:darkgreen;
 }
+
+#panel{
+display:none;
+}
 </style>
 
 </head>
 
 <body>
 
-<h1>ADMIN LIGA</h1>
+<div id="login" class="login">
+<h2>Login Admin</h2>
 
-<h3>Input Skor</h3>
+<input type="password" id="password" placeholder="Password">
+<br><br>
+<button onclick="login()">Masuk</button>
 
-<select id="team1"></select>
-<input type="number" id="score1" placeholder="0">
+</div>
 
-VS
 
-<select id="team2"></select>
-<input type="number" id="score2" placeholder="0">
+<div id="panel">
+
+<h1>ADMIN MANGGARAI LEAGUE</h1>
+
+<select id="team">
+</select>
+
+<input type="number" id="poin" placeholder="Poin">
 
 <br><br>
 
-<button onclick="saveScore()">Simpan</button>
+<button onclick="updatePoin()">Update Poin</button>
+
+</div>
 
 <script>
 
-let teams = JSON.parse(localStorage.getItem("teams")) || [
-{name:"GAPUTRO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"PERSONA FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"BANGKA NACAP FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"PALOPO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"ASE KAE FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"REAL MADRID", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"AKAMASI", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"MACAN SANGATTA", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"ARENA FC", main:0, menang:0, seri:0, kalah:0, poin:0}
-];
+let PASSWORD = "12345";
 
-let team1 = document.getElementById("team1");
-let team2 = document.getElementById("team2");
+function login(){
 
-teams.forEach((t,i)=>{
-team1.innerHTML+=`<option value="${i}">${t.name}</option>`;
-team2.innerHTML+=`<option value="${i}">${t.name}</option>`;
-});
+let input = document.getElementById("password").value;
 
-function saveScore(){
-
-let t1 = team1.value;
-let t2 = team2.value;
-
-let s1 = parseInt(document.getElementById("score1").value);
-let s2 = parseInt(document.getElementById("score2").value);
-
-if(t1==t2){
-alert("Tim tidak boleh sama!");
-return;
-}
-
-teams[t1].main++;
-teams[t2].main++;
-
-if(s1>s2){
-teams[t1].menang++;
-teams[t2].kalah++;
-teams[t1].poin+=3;
-}
-else if(s2>s1){
-teams[t2].menang++;
-teams[t1].kalah++;
-teams[t2].poin+=3;
+if(input===PASSWORD){
+document.getElementById("login").style.display="none";
+document.getElementById("panel").style.display="block";
 }
 else{
-teams[t1].seri++;
-teams[t2].seri++;
-teams[t1].poin+=1;
-teams[t2].poin+=1;
+alert("Password salah!");
 }
+
+}
+
+let teams = JSON.parse(localStorage.getItem("teams")) || [
+{name:"GAPUTRO FC", poin:0},
+{name:"PERSONA FC", poin:0},
+{name:"BANGKA NACAP FC", poin:0},
+{name:"PALOPO FC", poin:0},
+{name:"ASE KAE FC", poin:0},
+{name:"REAL MADRID", poin:0},
+{name:"AKAMASI", poin:0},
+{name:"MACAN SANGATTA", poin:0},
+{name:"ARENA FC", poin:0}
+];
+
+let select = document.getElementById("team");
+
+teams.forEach((t,i)=>{
+select.innerHTML+=`<option value="${i}">${t.name}</option>`;
+});
+
+function updatePoin(){
+
+let index = select.value;
+let poinBaru = parseInt(document.getElementById("poin").value);
+
+teams[index].poin = poinBaru;
 
 localStorage.setItem("teams",JSON.stringify(teams));
 
-alert("Skor disimpan!");
+alert("Poin berhasil diupdate!");
+
 }
 
 </script>
