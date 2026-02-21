@@ -19,23 +19,29 @@ table{
 margin:auto;
 margin-top:20px;
 border-collapse:collapse;
-width:90%;
+width:60%;
 background:white;
 color:black;
 }
 
 th,td{
-padding:10px;
+padding:12px;
 border:1px solid #ddd;
 }
 
 th{
 background:#0b1d3a;
 color:white;
+font-size:18px;
 }
 
 tr:hover{
 background:#f2f2f2;
+}
+
+.footer{
+margin-top:20px;
+color:#ccc;
 }
 </style>
 </head>
@@ -47,28 +53,28 @@ background:#f2f2f2;
 
 <table id="tabel">
 <tr>
-<th>#</th>
+<th>Rank</th>
 <th>Tim</th>
-<th>Main</th>
-<th>Menang</th>
-<th>Seri</th>
-<th>Kalah</th>
 <th>Poin</th>
 </tr>
 </table>
 
+<div class="footer">
+Update oleh Admin Liga
+</div>
+
 <script>
 
 let teams = JSON.parse(localStorage.getItem("teams")) || [
-{name:"GAPUTRO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"PERSONA FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"BANGKA NACAP FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"PALOPO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"ASE KAE FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"REAL MADRID", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"AKAMASI", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"MACAN SANGATTA", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"ARENA FC", main:0, menang:0, seri:0, kalah:0, poin:0}
+{name:"GAPUTRO FC", poin:0},
+{name:"PERSONA FC", poin:0},
+{name:"BANGKA NACAP FC", poin:0},
+{name:"PALOPO FC", poin:0},
+{name:"ASE KAE FC", poin:0},
+{name:"REAL MADRID", poin:0},
+{name:"AKAMASI", poin:0},
+{name:"MACAN SANGATTA", poin:0},
+{name:"ARENA FC", poin:0}
 ];
 
 teams.sort((a,b)=>b.poin-a.poin);
@@ -80,10 +86,6 @@ table.innerHTML+=`
 <tr>
 <td>${i+1}</td>
 <td>${t.name}</td>
-<td>${t.main}</td>
-<td>${t.menang}</td>
-<td>${t.seri}</td>
-<td>${t.kalah}</td>
 <td>${t.poin}</td>
 </tr>
 `;
