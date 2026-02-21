@@ -1,94 +1,166 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manggarai League</title>
+
 <style>
+
 body{
-font-family: Arial;
-background:#0b1d3a;
+margin:0;
+font-family: Arial, sans-serif;
+background: linear-gradient(to right,#0b1d3a,#1e3c72);
 color:white;
-text-align:center;
 }
 
-h1{
+header{
 background:#09142b;
-padding:15px;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.sub{
+text-align:center;
+padding:10px;
+color:#ccc;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+}
+
+.card{
+background:white;
+color:black;
+border-radius:15px;
+padding:20px;
+box-shadow:0px 5px 20px rgba(0,0,0,0.4);
+}
+
+h2{
+text-align:center;
+margin-bottom:10px;
 }
 
 table{
-margin:auto;
-margin-top:20px;
+width:100%;
 border-collapse:collapse;
-width:60%;
-background:white;
-color:black;
-}
-
-th,td{
-padding:12px;
-border:1px solid #ddd;
+margin-top:10px;
 }
 
 th{
 background:#0b1d3a;
 color:white;
-font-size:18px;
+padding:12px;
+font-size:14px;
+}
+
+td{
+padding:10px;
+text-align:center;
+border-bottom:1px solid #ddd;
+font-size:14px;
 }
 
 tr:hover{
 background:#f2f2f2;
 }
 
-.footer{
+.rank{
+font-weight:bold;
+}
+
+.top{
+background:#d4edda !important;
+font-weight:bold;
+}
+
+footer{
+text-align:center;
+padding:15px;
 margin-top:20px;
+background:#09142b;
 color:#ccc;
 }
+
 </style>
 </head>
 
 <body>
 
-<h1>⚽ MANGGARAI LEAGUE</h1>
-<h3>Klasemen Resmi</h3>
+<header>
+⚽ MANGGARAI LEAGUE
+</header>
+
+<div class="sub">
+Klasemen Resmi Liga
+</div>
+
+<div class="container">
+<div class="card">
+
+<h2>Klasemen</h2>
 
 <table id="tabel">
 <tr>
-<th>Rank</th>
+<th>#</th>
 <th>Tim</th>
+<th>M</th>
+<th>W</th>
+<th>D</th>
+<th>L</th>
 <th>Poin</th>
 </tr>
 </table>
 
-<div class="footer">
-Update oleh Admin Liga
 </div>
+</div>
+
+<footer>
+© Manggarai League 2026
+</footer>
 
 <script>
 
 let teams = JSON.parse(localStorage.getItem("teams")) || [
-{name:"GAPUTRO FC", poin:0},
-{name:"PERSONA FC", poin:0},
-{name:"BANGKA NACAP FC", poin:0},
-{name:"PALOPO FC", poin:0},
-{name:"ASE KAE FC", poin:0},
-{name:"REAL MADRID", poin:0},
-{name:"AKAMASI", poin:0},
-{name:"MACAN SANGATTA", poin:0},
-{name:"ARENA FC", poin:0}
+{name:"GAPUTRO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"PERSONA FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"BANGKA NACAP FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"PALOPO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"ASE KAE FC", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"REAL MADRID", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"AKAMASI", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"MACAN SANGATTA", main:0, menang:0, seri:0, kalah:0, poin:0},
+{name:"ARENA FC", main:0, menang:0, seri:0, kalah:0, poin:0}
 ];
 
+// sort berdasarkan poin
 teams.sort((a,b)=>b.poin-a.poin);
 
 let table = document.getElementById("tabel");
 
 teams.forEach((t,i)=>{
-table.innerHTML+=`
-<tr>
-<td>${i+1}</td>
+
+let warna = i==0 ? "top" : "";
+
+table.innerHTML += `
+<tr class="${warna}">
+<td class="rank">${i+1}</td>
 <td>${t.name}</td>
-<td>${t.poin}</td>
+<td>${t.main}</td>
+<td>${t.menang}</td>
+<td>${t.seri}</td>
+<td>${t.kalah}</td>
+<td><b>${t.poin}</b></td>
 </tr>
 `;
+
 });
 
 </script>
