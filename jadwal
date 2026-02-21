@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jadwal Manggarai League</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(to right,#0b1d3a,#1e3c72);
+color:white;
+}
+
+header{
+background:#09142b;
+padding:20px;
+text-align:center;
+font-size:26px;
+font-weight:bold;
+}
+
+.menu{
+text-align:center;
+padding:10px;
+background:#0b1d3a;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+margin:10px;
+font-weight:bold;
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+}
+
+.card{
+background:white;
+color:black;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+box-shadow:0px 5px 15px rgba(0,0,0,0.4);
+}
+
+h2{
+text-align:center;
+}
+
+.match{
+padding:10px;
+border-bottom:1px solid #ddd;
+text-align:center;
+font-size:16px;
+}
+
+.libur{
+color:red;
+font-weight:bold;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+⚽ MANGGARAI LEAGUE
+</header>
+
+<div class="menu">
+<a href="index.html">Klasemen</a>
+<a href="jadwal.html">Jadwal</a>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h2>Pekan 1</h2>
+<div class="match">GAPUTRO FC vs PERSONA FC</div>
+<div class="match">BANGKA NACAP FC vs PALOPO FC</div>
+<div class="match">ASE KAE FC vs REAL MADRID</div>
+<div class="match">AKAMASI vs MACAN SANGATTA</div>
+<div class="match">ARENA FC vs PEMULLA FC</div>
+<div class="libur">WAE RI’I FC Libur</div>
+</div>
+
+<div class="card">
+<h2>Pekan 2</h2>
+<div class="match">GAPUTRO FC vs BANGKA NACAP FC</div>
+<div class="match">PERSONA FC vs ASE KAE FC</div>
+<div class="match">PALOPO FC vs AKAMASI</div>
+<div class="match">REAL MADRID vs ARENA FC</div>
+<div class="match">MACAN SANGATTA vs WAE RI’I FC</div>
+<div class="libur">PEMULLA FC Libur</div>
+</div>
+
+<div class="card">
+<h2>Pekan 3</h2>
+<div class="match">GAPUTRO FC vs PALOPO FC</div>
+<div class="match">PERSONA FC vs REAL MADRID</div>
+<div class="match">BANGKA NACAP FC vs AKAMASI</div>
+<div class="match">ASE KAE FC vs ARENA FC</div>
+<div class="match">PEMULLA FC vs MACAN SANGATTA</div>
+<div class="libur">WAE RI’I FC Libur</div>
+</div>
+
+<div class="card">
+<h2>Pekan 4</h2>
+<div class="match">GAPUTRO FC vs ASE KAE FC</div>
+<div class="match">PERSONA FC vs AKAMASI</div>
+<div class="match">BANGKA NACAP FC vs ARENA FC</div>
+<div class="match">PALOPO FC vs MACAN SANGATTA</div>
+<div class="match">REAL MADRID vs PEMULLA FC</div>
+<div class="libur">WAE RI’I FC Libur</div>
+</div>
+
+<div class="card">
+<h2>Pekan 5</h2>
+<div class="match">GAPUTRO FC vs REAL MADRID</div>
+<div class="match">PERSONA FC vs ARENA FC</div>
+<div class="match">BANGKA NACAP FC vs MACAN SANGATTA</div>
+<div class="match">PALOPO FC vs PEMULLA FC</div>
+<div class="match">ASE KAE FC vs WAE RI’I FC</div>
+<div class="libur">AKAMASI Libur</div>
+</div>
+
+</div>
+
+</body>
+</html>
