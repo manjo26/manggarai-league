@@ -34,8 +34,11 @@ color:black;
 padding:25px;
 border-radius:15px;
 box-shadow:0px 5px 20px rgba(0,0,0,0.5);
-text-align:center;
 margin-bottom:20px;
+}
+
+h2, h3{
+text-align:center;
 }
 
 input, select{
@@ -46,17 +49,24 @@ width:200px;
 }
 
 button{
-padding:12px 25px;
+padding:10px 20px;
 background:#0b1d3a;
 color:white;
 border:none;
-font-size:16px;
 cursor:pointer;
 border-radius:8px;
 }
 
 button:hover{
 background:#1e3c72;
+}
+
+.btn-delete{
+background:red;
+}
+
+.btn-delete:hover{
+background:darkred;
 }
 
 #panel{
@@ -66,6 +76,16 @@ display:none;
 .login{
 text-align:center;
 margin-top:150px;
+}
+
+.team-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#f1f1f1;
+padding:8px;
+border-radius:8px;
+margin:5px 0;
 }
 
 .footer{
@@ -84,30 +104,41 @@ color:#ccc;
 ⚽ ADMIN MANGGARAI LEAGUE
 </header>
 
+<!-- LOGIN -->
 <div id="login" class="login">
-
 <h2>Login Admin</h2>
-
 <input type="password" id="password" placeholder="Password">
 <br><br>
 <button onclick="login()">Masuk</button>
-
 </div>
 
-
+<!-- PANEL -->
 <div id="panel" class="container">
 
-<!-- TAMBAH TIM -->
+<!-- MANAJEMEN TIM -->
 <div class="card">
-<h2>Tambah Tim Baru</h2>
 
+<h2>Manajemen Tim</h2>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+<!-- TAMBAH -->
+<div style="flex:1;">
+<h3>Tambah Tim</h3>
 <input type="text" id="teamName" placeholder="Nama Tim">
-<br><br>
+<br>
+<button onclick="tambahTim()">Tambah</button>
+</div>
 
-<button onclick="tambahTim()">Tambah Tim</button>
+<!-- HAPUS -->
+<div style="flex:1;">
+<h3>Hapus Tim</h3>
+<div id="teamList"></div>
+</div>
 
 </div>
 
+</div>
 
 <!-- INPUT SKOR -->
 <div class="card">
@@ -117,27 +148,27 @@ color:#ccc;
 <select id="team1"></select>
 <input type="number" id="score1" placeholder="0">
 
-<h3>VS</h3>
+<h3 style="text-align:center;">VS</h3>
 
 <select id="team2"></select>
 <input type="number" id="score2" placeholder="0">
 
 <br><br>
 
+<div style="text-align:center;">
 <button onclick="saveScore()">Simpan Hasil</button>
+</div>
 
 </div>
 
-
 <!-- RESET -->
 <div class="card">
-
 <h2>Reset Liga</h2>
-
+<div style="text-align:center;">
 <button onclick="resetLiga()" style="background:red;">
 Reset Semua Data
 </button>
-
+</div>
 </div>
 
 <div class="footer">
@@ -150,23 +181,21 @@ Manggarai League Admin Panel
 
 let PASSWORD = "12345";
 
+// LOGIN
 function login(){
-
 let pass = document.getElementById("password").value;
 
 if(pass===PASSWORD){
 document.getElementById("login").style.display="none";
 document.getElementById("panel").style.display="block";
 loadTeams();
-}
-else{
+renderTeamList();
+}else{
 alert("Password salah!");
 }
-
 }
 
-
-// DATA TIM
+// DATA
 let teams = JSON.parse(localStorage.getItem("teams")) || [
 {name:"GAPURTO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
 {name:"PERSONA FC", main:0, menang:0, seri:0, kalah:0, poin:0},
@@ -176,9 +205,13 @@ let teams = JSON.parse(localStorage.getItem("teams")) || [
 {name:"ARENA FC", main:0, menang:0, seri:0, kalah:0, poin:0}
 ];
 
+// SAVE
+function saveData(){
+localStorage.setItem("teams",JSON.stringify(teams));
+}
 
+// LOAD DROPDOWN
 function loadTeams(){
-
 let team1 = document.getElementById("team1");
 let team2 = document.getElementById("team2");
 
@@ -189,13 +222,10 @@ teams.forEach((t,i)=>{
 team1.innerHTML+=`<option value="${i}">${t.name}</option>`;
 team2.innerHTML+=`<option value="${i}">${t.name}</option>`;
 });
-
 }
-
 
 // TAMBAH TIM
 function tambahTim(){
-
 let nama = document.getElementById("teamName").value;
 
 if(nama==""){
@@ -212,46 +242,39 @@ kalah:0,
 poin:0
 });
 
-localStorage.setItem("teams",JSON.stringify(teams));
-
-loadTeams();
-
-alert("Tim berhasil ditambahkan!");
-
-}
-// HAPUS TIM
-function hapusTim(index){
-
-if(confirm("Hapus tim ini?")){
-teams.splice(index,1);
-
 saveData();
 loadTeams();
 renderTeamList();
 
+document.getElementById("teamName").value="";
+alert("Tim berhasil ditambahkan!");
+}
+
+// HAPUS TIM
+function hapusTim(index){
+if(confirm("Yakin hapus tim ini?")){
+teams.splice(index,1);
+saveData();
+loadTeams();
+renderTeamList();
 alert("Tim dihapus!");
 }
-
 }
 
-// LIST TIM + BUTTON HAPUS
+// RENDER LIST TIM
 function renderTeamList(){
-let html = "<h3>Daftar Tim</h3>";
+let div = document.getElementById("teamList");
+div.innerHTML="";
 
 teams.forEach((t,i)=>{
-html += `
-<div style="margin:5px;">
-${t.name}
-<button onclick="hapusTim(${i})" style="background:red;margin-left:10px;">Hapus</button>
+div.innerHTML += `
+<div class="team-item">
+<span>${t.name}</span>
+<button class="btn-delete" onclick="hapusTim(${i})">Hapus</button>
 </div>
 `;
 });
-
-document.querySelector(".card").innerHTML += `<div id="teamList">${html}</div>`;
 }
-
-  
-
 
 // SIMPAN SKOR
 function saveScore(){
@@ -264,6 +287,11 @@ let s2 = parseInt(document.getElementById("score2").value);
 
 if(t1==t2){
 alert("Tim tidak boleh sama!");
+return;
+}
+
+if(isNaN(s1)||isNaN(s2)){
+alert("Isi skor dulu!");
 return;
 }
 
@@ -287,18 +315,14 @@ teams[t1].poin+=1;
 teams[t2].poin+=1;
 }
 
-localStorage.setItem("teams",JSON.stringify(teams));
+saveData();
 
 alert("Hasil disimpan!");
-
 }
-
 
 // RESET
 function resetLiga(){
-
 if(confirm("Reset semua data?")){
-
 teams.forEach(t=>{
 t.main=0;
 t.menang=0;
@@ -306,20 +330,10 @@ t.seri=0;
 t.kalah=0;
 t.poin=0;
 });
-
-localStorage.setItem("teams",JSON.stringify(teams));
-
+saveData();
 alert("Liga direset!");
-
 }
-
 }
-
-</script>
-
-</body>
-</html>
-
 
 </script>
 
