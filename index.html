@@ -1,34 +1,152 @@
-<h1>🏆 Manggarai League</h1>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manggarai League</title>
 
-<table border="1">
+<style>
+
+body{
+margin:0;
+font-family: 'Segoe UI', sans-serif;
+background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+}
+
+header{
+text-align:center;
+padding:20px;
+font-size:28px;
+font-weight:bold;
+background:rgba(0,0,0,0.5);
+backdrop-filter: blur(10px);
+}
+
+.container{
+width:95%;
+margin:auto;
+margin-top:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter: blur(15px);
+border-radius:20px;
+padding:20px;
+box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+table{
+width:100%;
+border-collapse: collapse;
+margin-top:10px;
+}
+
+th{
+background:#1e3c72;
+padding:12px;
+font-size:14px;
+}
+
+td{
+padding:12px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.club{
+text-align:left;
+font-weight:bold;
+}
+
+tr:hover{
+background:rgba(255,255,255,0.1);
+transition:0.3s;
+}
+
+/* TOP 3 STYLE */
+.top1{
+background:linear-gradient(90deg,#FFD700,#FFA500);
+color:black;
+font-weight:bold;
+}
+
+.top2{
+background:linear-gradient(90deg,#C0C0C0,#A9A9A9);
+color:black;
+}
+
+.top3{
+background:linear-gradient(90deg,#cd7f32,#a0522d);
+color:black;
+}
+
+/* BADGE */
+.badge{
+padding:5px 10px;
+border-radius:10px;
+font-size:12px;
+}
+
+.win{background:#22c55e;}
+.draw{background:#9ca3af;}
+.lose{background:#ef4444;}
+
+</style>
+</head>
+
+<body>
+
+<header>
+🔥 Manggarai League Standings 🔥
+</header>
+
+<div class="container">
+<div class="card">
+
+<table>
 <thead>
 <tr>
+<th>#</th>
 <th>Tim</th>
 <th>Main</th>
-<th>Menang</th>
-<th>Seri</th>
-<th>Kalah</th>
+<th>M</th>
+<th>S</th>
+<th>K</th>
 <th>Poin</th>
 </tr>
 </thead>
+
 <tbody id="table"></tbody>
+
 </table>
+
+</div>
+</div>
 
 <script>
 
-let teams = JSON.parse(localStorage.getItem("teams")) || [];
-
 function render(){
+
+let teams = JSON.parse(localStorage.getItem("teams")) || [];
 
 let table = document.getElementById("table");
 table.innerHTML="";
 
 teams.sort((a,b)=> b.poin - a.poin);
 
-teams.forEach(t=>{
+teams.forEach((t,i)=>{
+
+let rankClass="";
+if(i==0) rankClass="top1";
+else if(i==1) rankClass="top2";
+else if(i==2) rankClass="top3";
+
 table.innerHTML += `
-<tr>
-<td>${t.name}</td>
+<tr class="${rankClass}">
+<td>${i+1}</td>
+<td class="club">⚽ ${t.name}</td>
 <td>${t.main}</td>
 <td>${t.menang}</td>
 <td>${t.seri}</td>
@@ -36,12 +154,15 @@ table.innerHTML += `
 <td>${t.poin}</td>
 </tr>
 `;
+
 });
 
 }
 
 render();
-
 setInterval(render,2000);
 
 </script>
+
+</body>
+</html>
