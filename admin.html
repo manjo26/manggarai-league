@@ -219,6 +219,38 @@ loadTeams();
 alert("Tim berhasil ditambahkan!");
 
 }
+// HAPUS TIM
+function hapusTim(index){
+
+if(confirm("Hapus tim ini?")){
+teams.splice(index,1);
+
+saveData();
+loadTeams();
+renderTeamList();
+
+alert("Tim dihapus!");
+}
+
+}
+
+// LIST TIM + BUTTON HAPUS
+function renderTeamList(){
+let html = "<h3>Daftar Tim</h3>";
+
+teams.forEach((t,i)=>{
+html += `
+<div style="margin:5px;">
+${t.name}
+<button onclick="hapusTim(${i})" style="background:red;margin-left:10px;">Hapus</button>
+</div>
+`;
+});
+
+document.querySelector(".card").innerHTML += `<div id="teamList">${html}</div>`;
+}
+
+  
 
 
 // SIMPAN SKOR
