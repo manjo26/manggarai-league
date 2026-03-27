@@ -1,166 +1,47 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manggarai League</title>
+<h1>🏆 Manggarai League</h1>
 
-<style>
-
-body{
-margin:0;
-font-family: Arial, sans-serif;
-background: linear-gradient(to right,#0b1d3a,#1e3c72);
-color:white;
-}
-
-header{
-background:#09142b;
-padding:20px;
-text-align:center;
-font-size:28px;
-font-weight:bold;
-letter-spacing:2px;
-}
-
-.sub{
-text-align:center;
-padding:10px;
-color:#ccc;
-}
-
-.container{
-width:95%;
-margin:auto;
-margin-top:20px;
-}
-
-.card{
-background:white;
-color:black;
-border-radius:15px;
-padding:20px;
-box-shadow:0px 5px 20px rgba(0,0,0,0.4);
-}
-
-h2{
-text-align:center;
-margin-bottom:10px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-
-th{
-background:#0b1d3a;
-color:white;
-padding:12px;
-font-size:14px;
-}
-
-td{
-padding:10px;
-text-align:center;
-border-bottom:1px solid #ddd;
-font-size:14px;
-}
-
-tr:hover{
-background:#f2f2f2;
-}
-
-.rank{
-font-weight:bold;
-}
-
-.top{
-background:#d4edda !important;
-font-weight:bold;
-}
-
-footer{
-text-align:center;
-padding:15px;
-margin-top:20px;
-background:#09142b;
-color:#ccc;
-}
-
-</style>
-</head>
-
-<body>
-
-<header>
-⚽ MANGGARAI LEAGUE
-</header>
-
-<div class="sub">
-Klasemen Resmi Liga
-</div>
-
-<div class="container">
-<div class="card">
-
-<h2>Klasemen</h2>
-
-<table id="tabel">
+<table border="1">
+<thead>
 <tr>
-<th>#</th>
 <th>Tim</th>
-<th>M</th>
-<th>W</th>
-<th>D</th>
-<th>L</th>
+<th>Main</th>
+<th>Menang</th>
+<th>Seri</th>
+<th>Kalah</th>
 <th>Poin</th>
 </tr>
+</thead>
+<tbody id="table"></tbody>
 </table>
-
-</div>
-</div>
-
-<footer>
-© Manggarai League 2026
-</footer>
 
 <script>
 
-let teams = JSON.parse(localStorage.getItem("teams")) || [
-{name:"GAPURTO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"PERSONA FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"BANGKA NACAP FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"PALOPO FC", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"MACAN SANGATTA", main:0, menang:0, seri:0, kalah:0, poin:0},
-{name:"ARENA FC", main:0, menang:0, seri:0, kalah:0, poin:0}
-];
+let teams = JSON.parse(localStorage.getItem("teams")) || [];
 
-// sort berdasarkan poin
-teams.sort((a,b)=>b.poin-a.poin);
+function render(){
 
-let table = document.getElementById("tabel");
+let table = document.getElementById("table");
+table.innerHTML="";
 
-teams.forEach((t,i)=>{
+teams.sort((a,b)=> b.poin - a.poin);
 
-let warna = i==0 ? "top" : "";
-
+teams.forEach(t=>{
 table.innerHTML += `
-<tr class="${warna}">
-<td class="rank">${i+1}</td>
+<tr>
 <td>${t.name}</td>
 <td>${t.main}</td>
 <td>${t.menang}</td>
 <td>${t.seri}</td>
 <td>${t.kalah}</td>
-<td><b>${t.poin}</b></td>
+<td>${t.poin}</td>
 </tr>
 `;
-
 });
 
-</script>
+}
 
-</body>
-</html>
+render();
+
+setInterval(render,2000);
+
+</script>
